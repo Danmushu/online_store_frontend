@@ -3,6 +3,7 @@ import Home from "../views/Home/index.vue"
 import Main from "../views/Main/index.vue"
 import Payment from "../views/Payment/index.vue"
 import Detail from "../views/Detail/index.vue"
+import Cart from "../views/Cart/index.vue"
 const routes = [
     {
         path: '/',
@@ -23,6 +24,11 @@ const routes = [
         path: '/main',
         name: 'Main',
         component: Main,
+    },
+    {
+        path: '/cart',
+        name: 'Cart',
+        component: Cart,
     }
 ]
 
