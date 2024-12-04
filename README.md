@@ -27,3 +27,8 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### utilities
+```shell
+npx tailwindcss -i ./src/assets/tailwindcss.css -o .\src\assets\output.css --watch
+```

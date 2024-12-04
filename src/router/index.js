@@ -4,6 +4,7 @@ import Main from "../views/Main/index.vue"
 import Payment from "../views/Payment/index.vue"
 import Detail from "../views/Detail/index.vue"
 import Cart from "../views/Cart/index.vue"
+import Login from "../views/Login/index.vue"
 const routes = [
     {
         path: '/',
@@ -29,6 +30,11 @@ const routes = [
         path: '/cart',
         name: 'Cart',
         component: Cart,
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login,
     }
 ]
 

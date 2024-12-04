@@ -1139,6 +1139,10 @@ select {
   height: 1px;
 }
 
+.min-h-full {
+  min-height: 100%;
+}
+
 .w-40 {
   width: 10rem;
 }
@@ -1692,6 +1696,11 @@ select {
   padding-bottom: 2.5rem;
 }
 
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
 .py-16 {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -1831,6 +1840,11 @@ select {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.text-2xl\/9 {
+  font-size: 1.5rem;
+  line-height: 2.25rem;
 }
 
 .text-3xl {
@@ -2021,6 +2035,22 @@ select {
   outline-offset: 2px;
 }
 
+.outline {
+  outline-style: solid;
+}
+
+.outline-1 {
+  outline-width: 1px;
+}
+
+.-outline-offset-1 {
+  outline-offset: -1px;
+}
+
+.outline-gray-300 {
+  outline-color: #d1d5db;
+}
+
 .ring {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -2151,6 +2181,16 @@ select {
   color: rgb(209 213 219 );
 }
 
+.placeholder\:text-gray-400::-moz-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+}
+
+.placeholder\:text-gray-400::placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+}
+
 .focus-within\:ring-2:focus-within {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -2180,6 +2220,11 @@ select {
 .hover\:bg-gray-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-indigo-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-indigo-700:hover {
@@ -2249,6 +2294,22 @@ select {
   outline-offset: 2px;
 }
 
+.focus\:outline:focus {
+  outline-style: solid;
+}
+
+.focus\:outline-2:focus {
+  outline-width: 2px;
+}
+
+.focus\:-outline-offset-2:focus {
+  outline-offset: -2px;
+}
+
+.focus\:outline-indigo-600:focus {
+  outline-color: #4f46e5;
+}
+
 .focus\:ring-0:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -2294,6 +2355,22 @@ select {
   --tw-ring-offset-color: #111827;
 }
 
+.focus-visible\:outline:focus-visible {
+  outline-style: solid;
+}
+
+.focus-visible\:outline-2:focus-visible {
+  outline-width: 2px;
+}
+
+.focus-visible\:outline-offset-2:focus-visible {
+  outline-offset: 2px;
+}
+
+.focus-visible\:outline-indigo-600:focus-visible {
+  outline-color: #4f46e5;
+}
+
 .group:hover .group-hover\:text-gray-100 {
   --tw-text-opacity: 1;
   color: rgb(243 244 246 / var(--tw-text-opacity, 1));
@@ -2328,6 +2405,11 @@ select {
 
   .sm\:col-span-9 {
     grid-column: span 9 / span 9;
+  }
+
+  .sm\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .sm\:ml-6 {
@@ -2391,8 +2473,16 @@ select {
     width: auto;
   }
 
+  .sm\:w-full {
+    width: 100%;
+  }
+
   .sm\:max-w-md {
     max-width: 28rem;
+  }
+
+  .sm\:max-w-sm {
+    max-width: 24rem;
   }
 
   .sm\:flex-1 {
@@ -2516,6 +2606,11 @@ select {
   .sm\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+  }
+
+  .sm\:text-sm\/6 {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
   }
 }
 
