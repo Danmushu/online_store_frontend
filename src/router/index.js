@@ -5,6 +5,7 @@ import Payment from "../views/Payment/index.vue"
 import Detail from "../views/Detail/index.vue"
 import Cart from "../views/Cart/index.vue"
 import Login from "../views/Login/index.vue"
+import Registration from "../views/Registration/index.vue"
 const routes = [
     {
         path: '/',
@@ -35,6 +36,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login,
+    },
+    {
+        path: '/registration',
+        name: 'Registration',
+        component: Registration,
     }
 ]
 
