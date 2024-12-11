@@ -1,17 +1,3 @@
-<!--
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
   <div class="bg-white">
     <!-- Mobile menu -->
@@ -100,7 +86,7 @@
               </button>
 
               <a href="#" class="ml-2 p-2 text-gray-400 hover:text-gray-500">
-                <span class="sr-only">Search</span>
+                <span class="sr-only">Search</span> <!--todo 变成搜索框 （hj 胡江）-->
                 <MagnifyingGlassIcon class="size-6" aria-hidden="true" />
               </a>
             </div>

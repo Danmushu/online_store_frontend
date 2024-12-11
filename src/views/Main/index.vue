@@ -1,18 +1,3 @@
-
-<!--
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
   <div class="bg-gray-50">
     <div>
@@ -94,136 +79,8 @@
           </div>
         </Dialog>
       </TransitionRoot>
+      <Header></Header>
 
-      <header class="relative">
-        <nav aria-label="Top">
-          <!-- Top navigation -->
-          <div class="bg-gray-900">
-            <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-              <!-- Currency selector -->
-              <form>
-                <div>
-                  <label for="desktop-currency" class="sr-only">Currency</label>
-                  <div class="group relative -ml-2 rounded-md border-transparent bg-gray-900 focus-within:ring-2 focus-within:ring-white">
-                    <select id="desktop-currency" name="currency" class="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100">
-                      <option v-for="currency in currencies" :key="currency">{{ currency }}</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                      <ChevronDownIcon class="size-5 text-gray-300" aria-hidden="true" />
-                    </div>
-                  </div>
-                </div>
-              </form>
-
-              <div class="flex items-center space-x-6">
-                <a href="#" class="text-sm font-medium text-white hover:text-gray-100">Sign in</a>
-                <a href="#" class="text-sm font-medium text-white hover:text-gray-100">Create an account</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Secondary navigation -->
-          <div class="bg-white shadow-sm">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div class="flex h-16 items-center justify-between">
-                <!-- Logo (lg+) -->
-                <div class="hidden lg:flex lg:flex-1 lg:items-center">
-                  <a href="#">
-                    <span class="sr-only">Your Company</span>
-                    <img class="h-8 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-                  </a>
-                </div>
-
-                <div class="hidden h-full lg:flex">
-                  <!-- Flyout menus -->
-                  <PopoverGroup class="inset-x-0 bottom-0 px-4">
-                    <div class="flex h-full justify-center space-x-8">
-                      <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
-                        <div class="relative flex">
-                          <PopoverButton :class="[open ? 'text-indigo-600' : 'text-gray-700 hover:text-gray-800', 'relative flex items-center justify-center text-sm font-medium transition-colors duration-200 ease-out']">
-                            {{ category.name }}
-                            <span :class="[open ? 'bg-indigo-600' : '', 'absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out']" aria-hidden="true" />
-                          </PopoverButton>
-                        </div>
-
-                        <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100" leave-to-class="opacity-0">
-                          <PopoverPanel class="absolute inset-x-0 top-full z-20 bg-white text-sm text-gray-500">
-                            <!-- Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow -->
-                            <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
-                            <!-- Fake border when menu is open -->
-                            <div class="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8" aria-hidden="true">
-                              <div :class="[open ? 'bg-gray-200' : 'bg-transparent', 'h-px w-full transition-colors duration-200 ease-out']" />
-                            </div>
-
-                            <div class="relative">
-                              <div class="mx-auto max-w-7xl px-8">
-                                <div class="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
-                                  <div v-for="item in category.featured" :key="item.name" class="group relative">
-                                    <img :src="item.imageSrc" :alt="item.imageAlt" class="aspect-square w-full rounded-md bg-gray-100 object-cover group-hover:opacity-75" />
-                                    <a :href="item.href" class="mt-4 block font-medium text-gray-900">
-                                      <span class="absolute inset-0 z-10" aria-hidden="true" />
-                                      {{ item.name }}
-                                    </a>
-                                    <p aria-hidden="true" class="mt-1">Shop now</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </PopoverPanel>
-                        </transition>
-                      </Popover>
-
-                      <a v-for="page in navigation.pages" :key="page.name" :href="page.href" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{{ page.name }}</a>
-                    </div>
-                  </PopoverGroup>
-                </div>
-
-                <!-- Mobile menu and search (lg-) -->
-                <div class="flex flex-1 items-center lg:hidden">
-                  <button type="button" class="-ml-2 rounded-md bg-white p-2 text-gray-400" @click="mobileMenuOpen = true">
-                    <span class="sr-only">Open menu</span>
-                    <Bars3Icon class="size-6" aria-hidden="true" />
-                  </button>
-
-                  <!-- Search -->
-                  <a href="#" class="ml-2 p-2 text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Search</span>
-                    <MagnifyingGlassIcon class="size-6" aria-hidden="true" />
-                  </a>
-                </div>
-
-                <!-- Logo (lg-) -->
-                <a href="#" class="lg:hidden">
-                  <span class="sr-only">Your Company</span>
-                  <img src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="" class="h-8 w-auto" />
-                </a>
-
-                <div class="flex flex-1 items-center justify-end">
-                  <a href="#" class="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">Search</a>
-
-                  <div class="flex items-center lg:ml-8">
-                    <!-- Help -->
-                    <a href="#" class="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
-                      <span class="sr-only">Help</span>
-                      <QuestionMarkCircleIcon class="size-6" aria-hidden="true" />
-                    </a>
-                    <a href="#" class="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">Help</a>
-
-                    <!-- Cart -->
-                    <div class="ml-4 flow-root lg:ml-8">
-                      <a href="#" class="group -m-2 flex items-center p-2">
-                        <ShoppingBagIcon class="size-6 shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                        <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                        <span class="sr-only">items in cart, view bag</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </header>
     </div>
 
     <div>
@@ -378,66 +235,7 @@
         </div>
       </main>
 
-      <footer aria-labelledby="footer-heading" class="border-t border-gray-200 bg-white">
-        <h2 id="footer-heading" class="sr-only">Footer</h2>
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="py-20">
-            <div class="grid grid-cols-1 md:grid-flow-col md:auto-rows-min md:grid-cols-12 md:gap-x-8 md:gap-y-16">
-              <!-- Image section -->
-              <div class="col-span-1 md:col-span-2 lg:col-start-1 lg:row-start-1">
-                <img src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="" class="h-8 w-auto" />
-              </div>
-
-              <!-- Sitemap sections -->
-              <div class="col-span-6 mt-10 grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-8 md:col-start-3 md:row-start-1 md:mt-0 lg:col-span-6 lg:col-start-2">
-                <div class="grid grid-cols-1 gap-y-12 sm:col-span-2 sm:grid-cols-2 sm:gap-x-8">
-                  <div>
-                    <h3 class="text-sm font-medium text-gray-900">Products</h3>
-                    <ul role="list" class="mt-6 space-y-6">
-                      <li v-for="item in footerNavigation.products" :key="item.name" class="text-sm">
-                        <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 class="text-sm font-medium text-gray-900">Company</h3>
-                    <ul role="list" class="mt-6 space-y-6">
-                      <li v-for="item in footerNavigation.company" :key="item.name" class="text-sm">
-                        <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div>
-                  <h3 class="text-sm font-medium text-gray-900">Customer Service</h3>
-                  <ul role="list" class="mt-6 space-y-6">
-                    <li v-for="item in footerNavigation.customerService" :key="item.name" class="text-sm">
-                      <a :href="item.href" class="text-gray-500 hover:text-gray-600">{{ item.name }}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <!-- Newsletter section -->
-              <div class="mt-12 md:col-span-8 md:col-start-3 md:row-start-2 md:mt-0 lg:col-span-4 lg:col-start-9 lg:row-start-1">
-                <h3 class="text-sm font-medium text-gray-900">Sign up for our newsletter</h3>
-                <p class="mt-6 text-sm text-gray-500">The latest deals and savings, sent to your inbox weekly.</p>
-                <form class="mt-2 flex sm:max-w-md">
-                  <label for="email-address" class="sr-only">Email address</label>
-                  <input id="email-address" type="text" autocomplete="email" required="" class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
-                  <div class="ml-4 shrink-0">
-                    <button type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Sign up</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <div class="border-t border-gray-100 py-10 text-center">
-            <p class="text-sm text-gray-500">&copy; 2021 Your Company, Inc. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -474,6 +272,8 @@ import {
   XMarkIcon,
 } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import Header from "@/components/layout/Header.vue";
+import Footer from "@/components/layout/Footer.vue";
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
@@ -660,32 +460,6 @@ const products2 = [
   },
   // More products...
 ]
-const footerNavigation = {
-  products: [
-    { name: 'Bags', href: '#' },
-    { name: 'Tees', href: '#' },
-    { name: 'Objects', href: '#' },
-    { name: 'Home Goods', href: '#' },
-    { name: 'Accessories', href: '#' },
-  ],
-  company: [
-    { name: 'Who we are', href: '#' },
-    { name: 'Sustainability', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Terms & Conditions', href: '#' },
-    { name: 'Privacy', href: '#' },
-  ],
-  customerService: [
-    { name: 'Contact', href: '#' },
-    { name: 'Shipping', href: '#' },
-    { name: 'Returns', href: '#' },
-    { name: 'Warranty', href: '#' },
-    { name: 'Secure Payments', href: '#' },
-    { name: 'FAQ', href: '#' },
-    { name: 'Find a store', href: '#' },
-  ],
-}
 
 const mobileMenuOpen = ref(false)
 const mobileFiltersOpen = ref(false)
