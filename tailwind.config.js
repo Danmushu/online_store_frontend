@@ -8,3 +8,19 @@ export default {
     require('@tailwindcss/forms'),
   ],
 }
+/**
+<!--
+  This example requires some changes to your config:
+
+    ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+ **/
