@@ -1,9 +1,10 @@
 <template>
   <header class="relative z-10">
     <nav aria-label="Top">
+      <link rel="stylesheet" href="test.css">
       <!-- Top navigation -->
-      <div class="bg-gray-900">
-        <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div class="bg-red-900">
+        <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 bg-blue-500">
           <!-- Currency selector -->
           <form>
             <div>
@@ -18,7 +19,6 @@
               </div>
             </div>
           </form>
-
           <div class="flex items-center space-x-6">
             <a href="/login" class="text-sm font-medium text-white hover:text-gray-100">登录</a>
             <a href="/registration" class="text-sm font-medium text-white hover:text-gray-100">创建账户</a>
@@ -27,12 +27,12 @@
       </div>
 
       <!-- Secondary navigation -->
-      <div class="bg-white/10 backdrop-blur-md backdrop-filter">
+      <div class="bg-red-500/40 backdrop-blur-md backdrop-filter" id="ba">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div class="flex h-16 items-center justify-between">
               <!-- Logo (lg+) -->
-              <div class="hidden lg:flex lg:flex-1 lg:items-center">
+              <div class="hidden lg:flex lg:flex-1 lg:items-center" >
                 <a href="#">
                   <span class="sr-only">Your Company</span>
                   <img class="h-8 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=white" alt="" />
