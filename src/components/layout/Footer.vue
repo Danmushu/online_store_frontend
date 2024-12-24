@@ -1,7 +1,8 @@
 <template>
-
+<link rel="stylesheet" href="test.css">
   <footer aria-labelledby="footer-heading">
     <h2 id="footer-heading" class="sr-only">Footer</h2>
+
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="border-t border-gray-200 py-20">
         <div class="grid grid-cols-1 md:grid-flow-col md:auto-rows-min md:grid-cols-12 md:gap-x-8 md:gap-y-16">
