@@ -87,9 +87,6 @@
       </div>
       <div aria-hidden="true" class="absolute inset-0 bg-gray-900 opacity-50" />
 
-      <!-- Navigation -->
-      <Header></Header>
-
       <div class="relative mx-auto flex max-w-3xl flex-col items-center px-6 py-32 text-center sm:py-64 lg:px-0">
         <h1 class="text-4xl font-bold tracking-tight text-white lg:text-6xl">New arrivals are here</h1>
         <p class="mt-4 text-xl text-white">The new arrivals have, well, newly arrived. Check out the latest options from our summer small-batch release while they're still in stock.</p>
@@ -112,13 +109,13 @@
           <div class="-my-2">
             <div class="relative box-content h-80 overflow-x-auto py-2 xl:overflow-visible">
               <div class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0">
-                <a v-for="category in categories" :key="category.name" :href="category.href" class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto">
+                <div v-for="product in products" @click="$router.push({path:'/detail', query:{id:product.id}})" :key="product.name" class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto">
                   <span aria-hidden="true" class="absolute inset-0">
-                    <img :src="category.imageSrc" alt="" class="size-full object-cover" />
+                    <img :src="product.imageSrc" alt="123" class="size-full object-cover"/>
                   </span>
                   <span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-50" />
-                  <span class="relative mt-auto text-center text-xl font-bold text-white">{{ category.name }}</span>
-                </a>
+                  <span class="relative mt-auto text-center text-xl font-bold text-white"> {{ product.name }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -181,13 +178,12 @@
         </div>
       </section>
     </main>
-    <Footer></Footer>
 
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import {
   Dialog,
   DialogPanel,
@@ -213,6 +209,7 @@ import {
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import Footer from "../../components/layout/Footer.vue";
 import Header from "../../components/layout/Header.vue";
+import {getProduct} from "@/api/auth.js";
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
   categories: [
@@ -281,57 +278,12 @@ const navigation = {
     { name: 'Stores', href: '#' },
   ],
 }
-const categories = [
-  {
-    name: 'New Arrivals',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-category-01.jpg',
-  },
-  {
-    name: 'Productivity',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-category-02.jpg',
-  },
-  {
-    name: 'Workspace',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-category-04.jpg',
-  },
-  {
-    name: 'Accessories',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-category-05.jpg',
-  },
-  {
-    name: 'Sale',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-category-03.jpg',
-  },
-]
-const collections = [
-  {
-    name: 'Handcrafted Collection',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-collection-01.jpg',
-    imageAlt: 'Brown leather key ring with brass metal loops and rivets on wood table.',
-    description: 'Keep your phone, keys, and wallet together, so you can lose everything at once.',
-  },
-  {
-    name: 'Organized Desk Collection',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-collection-02.jpg',
-    imageAlt: 'Natural leather mouse pad on white desk next to porcelain mug and keyboard.',
-    description: 'The rest of the house will still be a mess, but your desk will look great.',
-  },
-  {
-    name: 'Focus Collection',
-    href: '#',
-    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-01-collection-03.jpg',
-    imageAlt: 'Person placing task list card into walnut card holder next to felt carrying case on leather desk pad.',
-    description: 'Be more productive than enterprise project managers with a single piece of paper.',
-  },
-]
-
+const products = ref([])
+onMounted(()=>{ getProduct({limit: 5, offset: 0}).then(res => res.json().then(data=> {
+  products.value = data["data"]
+  console.log(data["data"])
+  console.log(data["message"])
+})) })
 const mobileMenuOpen = ref(false)
 </script>
 

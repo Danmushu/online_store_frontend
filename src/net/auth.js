@@ -1,4 +1,4 @@
-import utils from "@/lib/utils";
+import utils from "@/net/utils";
 
 const userAuth = {
     token: {

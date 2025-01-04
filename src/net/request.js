@@ -1,8 +1,8 @@
 import axios from "axios";
-import auth from "@/lib/auth";
+import auth from "@/net/auth.js";
 import { ElNotification as $notify } from "element-plus";
 
-let BASE_API = window.API.DEV_SERVER;
+let BASE_API = "http://localhost:3030/api/";
 
 const request = axios.create({
     baseURL: BASE_API,

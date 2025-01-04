@@ -222,8 +222,11 @@
         </div>
 
         <div class="mt-8 lg:col-span-5">
-          <form>
-            <!-- Color picker -->
+
+
+          <div>
+
+            <!-- Color picker
             <div>
               <h2 class="text-sm font-medium text-gray-900">Color</h2>
 
@@ -237,8 +240,8 @@
                 </RadioGroup>
               </fieldset>
             </div>
-
-            <!-- Size picker -->
+            -->
+            <!-- Size picker
             <div class="mt-8">
               <div class="flex items-center justify-between">
                 <h2 class="text-sm font-medium text-gray-900">Size</h2>
@@ -253,9 +256,10 @@
                 </RadioGroup>
               </fieldset>
             </div>
-
-            <button type="submit" class="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to cart</button>
-          </form>
+            -->
+            <button @click="existInCart?delCartItem(product.id):addCartItem(product.id);existInCart = !existInCart" :class="['mt-8 flex w-full items-center justify-center rounded-md border border-transparent  px-8 py-3 text-base font-medium focus:outline-none focus:ring-0 focus:ring-offset-2 duration-150', existInCart?'bg-white border-red-600 text-red-600  hover:bg-red-50':'bg-green-600 hover:bg-green-700 text-white ']">
+              {{existInCart? '从购物车移除':'加入购物车'}}</button>
+          </div>
 
           <!-- Product details -->
           <div class="mt-10">
@@ -284,7 +288,7 @@
                   <component :is="policy.icon" class="mx-auto size-6 shrink-0 text-gray-400" aria-hidden="true" />
                   <span class="mt-4 text-sm font-medium text-gray-900">{{ policy.name }}</span>
                 </dt>
-                <dd class="mt-1 text-sm text-gray-500">{{ policy.description }}</dd>
+                <dd class="mt-1 text-sm text-gray-500">{{ policy.desc }}</dd>
               </div>
             </dl>
           </section>
@@ -349,7 +353,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {
   Dialog,
   DialogPanel,
@@ -378,6 +382,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import { StarIcon } from '@heroicons/vue/20/solid'
 import Footer from "../../components/layout/Footer.vue";
+import {addCartItem, delCartItem, getProduct, listCartItems} from "@/api/auth.js";
+import {useRouter} from "vue-router";
 const navigation = {
   categories: [
     {
@@ -563,10 +569,9 @@ const navigation = {
     { name: 'Stores', href: '#' },
   ],
 }
-const product = {
+const product = ref({
   name: 'Basic Tee',
   price: '$35',
-  href: '#',
   breadcrumbs: [
     { id: 1, name: 'Women', href: '#' },
     { id: 2, name: 'Clothing', href: '#' },
@@ -591,10 +596,6 @@ const product = {
       primary: false,
     },
   ],
-  colors: [
-    { name: 'Black', bgColor: 'bg-gray-900', selectedColor: 'ring-gray-900' },
-    { name: 'Heather Grey', bgColor: 'bg-gray-400', selectedColor: 'ring-gray-400' },
-  ],
   sizes: [
     { name: 'XXS', inStock: true },
     { name: 'XS', inStock: true },
@@ -613,7 +614,7 @@ const product = {
     'Pre-washed and pre-shrunk',
     'Machine wash cold with similar colors',
   ],
-}
+})
 const policies = [
   { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
   { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
@@ -651,8 +652,23 @@ const relatedProducts = [
 ]
 
 const open = ref(false)
-const selectedColor = ref(product.colors[0])
-const selectedSize = ref(product.sizes[2])
+
+const router = useRouter()
+
+const existInCart = ref(false)
+onMounted(()=>{
+
+
+  console.log(router.currentRoute.value)
+  const id = router.currentRoute.value.query.id
+  getProduct({id: id}).then(res => res.json().then(data=>{
+    product.value = data["data"]
+    existInCart.value = listCartItems().indexOf(product.value.id) !== -1
+    console.log(data)
+  }))
+
+})
+
 </script>
 
 <style scoped>

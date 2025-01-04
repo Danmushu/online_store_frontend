@@ -79,7 +79,6 @@
           </div>
         </Dialog>
       </TransitionRoot>
-      <Header></Header>
 
     </div>
 
@@ -235,7 +234,6 @@
         </div>
       </main>
 
-      <Footer></Footer>
     </div>
   </div>
 </template>

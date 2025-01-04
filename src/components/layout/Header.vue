@@ -5,23 +5,32 @@
       <div class="bg-gray-900">
         <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <!-- Currency selector -->
-          <form>
+          <div @click="$router.push({path:'/'})">
             <div>
-              <label for="desktop-currency" class="sr-only">Currency</label>
-              <div class="group relative -ml-2 rounded-md border-transparent bg-gray-900 focus-within:ring-2 focus-within:ring-white">
-                <select id="desktop-currency" name="currency" class="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100">
-                  <option v-for="currency in currencies" :key="currency">{{ currency }}</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                  <ChevronDownIcon class="size-5 text-gray-300" aria-hidden="true" />
-                </div>
+              <div class="group relative -ml-2 rounded-md border-transparent bg-gray-900 text-white focus-within:ring-2 focus-within:ring-white">
+                LOGO 首页
               </div>
             </div>
-          </form>
+          </div>
 
+
+
+          <!-- 登录状态相关 -->
           <div class="flex items-center space-x-6">
-            <a href="/login" class="text-sm font-medium text-white hover:text-gray-100">登录</a>
-            <a href="/registration" class="text-sm font-medium text-white hover:text-gray-100">创建账户</a>
+            <a v-if="!user.name" href="/login" class="text-sm font-medium text-white hover:text-gray-100">登录</a>
+            <a v-if="!user.name"  href="/registration" class="text-sm font-medium text-white hover:text-gray-100">创建账户</a>
+
+            <span v-if="user.name" class="text-sm font-medium text-white hover:text-gray-100">{{user.name}}</span>
+
+
+            <button v-if="user.name"  @click="cleanLoginStatus()" class="text-sm font-medium text-white hover:text-gray-100">退出登录</button>
+
+            <button @click="$router.push({path:'/cart'})">
+              <ShoppingBagIcon class="size-6 shrink-0 text-white" aria-hidden="true" />
+              <span class="ml-2 text-sm font-medium text-white">{{listCartItems().length}}</span>
+              <span class="sr-only">items in cart, view bag</span>
+            </button>
+
           </div>
         </div>
       </div>
@@ -93,11 +102,6 @@
                 </a>
               </div>
 
-              <!-- Logo (lg-) -->
-              <a href="#" class="lg:hidden">
-                <span class="sr-only">Your Company</span>
-                <img src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=white" alt="" class="h-8 w-auto" />
-              </a>
 
               <div class="flex flex-1 items-center justify-end">
                 <a href="#" class="hidden text-sm font-medium text-white lg:block">Search</a>
@@ -112,9 +116,10 @@
 
                   <!-- Cart -->
                   <div class="ml-4 flow-root lg:ml-8">
-                    <a href="#" class="group -m-2 flex items-center p-2">
+                    <a href="/cart" class="group -m-2 flex items-center p-2">
+
                       <ShoppingBagIcon class="size-6 shrink-0 text-white" aria-hidden="true" />
-                      <span class="ml-2 text-sm font-medium text-white">0</span>
+                      <span class="ml-2 text-sm font-medium text-white">{{listCartItems().length}}</span>
                       <span class="sr-only">items in cart, view bag</span>
                     </a>
                   </div>
@@ -137,7 +142,8 @@ import {
   ShoppingBagIcon
 } from "@heroicons/vue/24/outline/index.js";
 import {ChevronDownIcon} from "@heroicons/vue/20/solid/index.js";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {listCartItems, loginUser} from "@/api/auth.js";
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
@@ -208,6 +214,35 @@ const navigation = {
   ],
 }
 const mobileMenuOpen = ref(false)
+const user = ref({
+  name: localStorage.getItem('name'),
+  username: localStorage.getItem('username'),
+  password: localStorage.getItem('password'),
+  token: localStorage.getItem('token'),
+})
+
+
+function cleanLoginStatus(){
+  localStorage.removeItem('token')
+  localStorage.removeItem('password')
+  localStorage.removeItem('username')
+  user.value = {}
+}
+onMounted(async ()=>{
+
+
+  loginUser({"password": user.value.password, "username": localStorage.getItem("username")}).then(res => res.json().then(data => {
+    if (data['token']){
+      // ok 自动登录成功
+    }else {
+
+      user.value = {}
+      localStorage.setItem('name', null)
+      localStorage.setItem('username', null)
+      localStorage.setItem('password', null)
+    }
+  }))
+})
 </script>
 <style scoped>
 

@@ -1,8 +1,11 @@
 <script setup>
 import CategoryPage from "@/views/Main/index.vue";
+import Header from "@/components/layout/Header.vue";
 </script>
 <template>
+  <Header></Header>
   <router-view/>
+  <Footer></Footer>
 </template>
 <!--<template>-->
 <!--&lt;!&ndash;  <header>&ndash;&gt;-->

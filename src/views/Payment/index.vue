@@ -296,7 +296,17 @@ const products = [
     imageAlt:
         'Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.',
   },
-  // More products...
+  {
+    id: 2,
+    name: 'Micro Backpack',
+    href: '#',
+    price: '$70.00',
+    color: 'Moss',
+    size: '5L',
+    imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/checkout-page-04-product-01.jpg',
+    imageAlt:
+        'Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.',
+  }
 ]
 </script>
 
