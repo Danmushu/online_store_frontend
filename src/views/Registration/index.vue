@@ -58,12 +58,12 @@
 </template>
 
 <script setup>
-// 处理表单提交逻辑
+
 const handleSubmit = () => {
   window.location.href = '/main';  
 };
 </script>
 
 <style scoped>
-/* 你可以在这里添加你的样式 */
+
 </style>
