@@ -3,14 +3,6 @@
 </script>
 
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-white">
-    <body class="h-full">
-    ```
-  -->
   <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img class="mx-auto h-10 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
@@ -18,7 +10,8 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="#" method="POST">
+      <!-- 这里使用 @submit.prevent 来阻止默认提交并执行自定义的登录逻辑 -->
+      <form @submit.prevent="handleSubmit" class="space-y-6" action="#" method="POST">
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-900">邮箱</label>
           <div class="mt-2">
@@ -64,6 +57,13 @@
   </div>
 </template>
 
+<script setup>
+// 处理表单提交逻辑
+const handleSubmit = () => {
+
+  window.location.href = '/main';  
+};
+</script>
 
 <style scoped>
 

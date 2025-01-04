@@ -6,7 +6,19 @@ import Detail from "../views/Detail/index.vue"
 import Cart from "../views/Cart/index.vue"
 import Login from "../views/Login/index.vue"
 import Registration from "../views/Registration/index.vue"
+import Header_log from '@/components/layout/Header_log.vue'
+import Header from '@/components/layout/Header.vue';
 const routes = [
+    { 
+        path: '/Header_log',
+        name:'Header_log' ,
+        component: Header_log 
+    },
+    { 
+        path: '/Header',
+        name:'Header' ,
+        component: Header 
+    },
     {
         path: '/',
         name: 'Home',

@@ -88,7 +88,7 @@
       <div aria-hidden="true" class="absolute inset-0 bg-gray-900 opacity-50" />
 
       <!-- Navigation -->
-      <Header_log></Header_log>
+      <Header></Header>
 
       <div class="relative mx-auto flex max-w-3xl flex-col items-center px-6 py-32 text-center sm:py-64 lg:px-0">
         <h1 class="text-4xl font-bold tracking-tight text-white lg:text-6xl">New arrivals are here</h1>
@@ -214,6 +214,7 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import Footer from "../../components/layout/Footer.vue";
 import Header from "../../components/layout/Header.vue";
 import Header_log from '@/components/layout/Header_log.vue';
+
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
   categories: [
