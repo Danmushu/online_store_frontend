@@ -1,213 +1,26 @@
 <template>
   <div class="bg-white">
-    <!-- Mobile menu -->
-    <TransitionRoot as="template" :show="open">
-      <Dialog class="relative z-40 lg:hidden" @close="open = false">
-        <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
-          <div class="fixed inset-0 bg-black/25" />
-        </TransitionChild>
-
-        <div class="fixed inset-0 z-40 flex">
-          <TransitionChild as="template" enter="transition ease-in-out duration-300 transform" enter-from="-translate-x-full" enter-to="translate-x-0" leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0" leave-to="-translate-x-full">
-            <DialogPanel class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
-              <div class="flex px-4 pb-2 pt-5">
-                <button type="button" class="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400" @click="open = false">
-                  <span class="sr-only">Close menu</span>
-                  <XMarkIcon class="size-6" aria-hidden="true" />
-                </button>
-              </div>
-
-              <!-- Links -->
-              <TabGroup as="div" class="mt-2">
-                <div class="border-b border-gray-200">
-                  <TabList class="-mb-px flex space-x-8 px-4">
-                    <Tab as="template" v-for="category in navigation.categories" :key="category.name" v-slot="{ selected }">
-                      <button :class="[selected ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-900', 'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium']">{{ category.name }}</button>
-                    </Tab>
-                  </TabList>
-                </div>
-                <TabPanels as="template">
-                  <TabPanel v-for="category in navigation.categories" :key="category.name" class="space-y-10 px-4 pb-8 pt-10">
-                    <div class="space-y-4">
-                      <div v-for="(item, itemIdx) in category.featured" :key="itemIdx" class="group relative overflow-hidden rounded-md bg-gray-100">
-                        <img :src="item.imageSrc" :alt="item.imageAlt" class="aspect-square w-full object-cover group-hover:opacity-75" />
-                        <div class="absolute inset-0 flex flex-col justify-end">
-                          <div class="bg-white/60 p-4 text-base sm:text-sm">
-                            <a :href="item.href" class="font-medium text-gray-900">
-                              <span class="absolute inset-0" aria-hidden="true" />
-                              {{ item.name }}
-                            </a>
-                            <p aria-hidden="true" class="mt-0.5 text-gray-700 sm:mt-1">Shop now</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div v-for="(column, columnIdx) in category.sections" :key="columnIdx" class="space-y-10">
-                      <div v-for="section in column" :key="section.name">
-                        <p :id="`${category.id}-${section.id}-heading-mobile`" class="font-medium text-gray-900">{{ section.name }}</p>
-                        <ul role="list" :aria-labelledby="`${category.id}-${section.id}-heading-mobile`" class="mt-6 flex flex-col space-y-6">
-                          <li v-for="item in section.items" :key="item.name" class="flow-root">
-                            <a :href="item.href" class="-m-2 block p-2 text-gray-500">{{ item.name }}</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </TabPanel>
-                </TabPanels>
-              </TabGroup>
-
-              <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                <div v-for="page in navigation.pages" :key="page.name" class="flow-root">
-                  <a :href="page.href" class="-m-2 block p-2 font-medium text-gray-900">{{ page.name }}</a>
-                </div>
-              </div>
-
-              <div class="border-t border-gray-200 px-4 py-6">
-                <a href="#" class="-m-2 flex items-center p-2">
-                  <img src="https://tailwindui.starxg.com/plus/img/flags/flag-canada.svg" alt="" class="block h-auto w-5 shrink-0" />
-                  <span class="ml-3 block text-base font-medium text-gray-900">CAD</span>
-                  <span class="sr-only">, change currency</span>
-                </a>
-              </div>
-            </DialogPanel>
-          </TransitionChild>
-        </div>
-      </Dialog>
-    </TransitionRoot>
-
-    <header class="relative bg-white">
-      <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="border-b border-gray-200">
-          <div class="flex h-16 items-center justify-between">
-            <div class="flex flex-1 items-center lg:hidden">
-              <button type="button" class="-ml-2 rounded-md bg-white p-2 text-gray-400" @click="open = true">
-                <span class="sr-only">Open menu</span>
-                <Bars3Icon class="size-6" aria-hidden="true" />
-              </button>
-
-              <a href="#" class="ml-2 p-2 text-gray-400 hover:text-gray-500">
-                <span class="sr-only">Search</span> <!--todo 变成搜索框 （hj 胡江）-->
-                <MagnifyingGlassIcon class="size-6" aria-hidden="true" />
-              </a>
-            </div>
-
-            <!-- Flyout menus -->
-            <PopoverGroup class="hidden lg:block lg:flex-1 lg:self-stretch">
-              <div class="flex h-full space-x-8">
-                <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
-                  <div class="relative flex">
-                    <PopoverButton :class="[open ? 'text-indigo-600' : 'text-gray-700 hover:text-gray-800', 'relative z-10 flex items-center justify-center text-sm font-medium transition-colors duration-200 ease-out']">
-                      {{ category.name }}
-                      <span :class="[open ? 'bg-indigo-600' : '', 'absolute inset-x-0 bottom-0 h-0.5 transition-colors duration-200 ease-out sm:mt-5 sm:translate-y-px sm:transform']" aria-hidden="true" />
-                    </PopoverButton>
-                  </div>
-
-                  <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100" leave-to-class="opacity-0">
-                    <PopoverPanel class="absolute inset-x-0 top-full z-10">
-                      <!-- Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow -->
-                      <div class="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
-
-                      <div class="relative bg-white">
-                        <div class="mx-auto max-w-7xl px-8">
-                          <div class="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
-                            <div class="grid grid-cols-2 grid-rows-1 gap-8 text-sm">
-                              <div v-for="(item, itemIdx) in category.featured" :key="item.name" :class="[itemIdx === 0 ? 'col-span-2' : '', 'group relative overflow-hidden rounded-md bg-gray-100']">
-                                <img :src="item.imageSrc" :alt="item.imageAlt" :class="[itemIdx === 0 ? 'aspect-[2/1]' : 'aspect-square', 'w-full object-cover group-hover:opacity-75']" />
-                                <div class="absolute inset-0 flex flex-col justify-end">
-                                  <div class="bg-white/60 p-4 text-sm">
-                                    <a :href="item.href" class="font-medium text-gray-900">
-                                      <span class="absolute inset-0" aria-hidden="true" />
-                                      {{ item.name }}
-                                    </a>
-                                    <p aria-hidden="true" class="mt-0.5 text-gray-700 sm:mt-1">Shop now</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-x-8 gap-y-10 text-sm text-gray-500">
-                              <div v-for="(column, columnIdx) in category.sections" :key="columnIdx" class="space-y-10">
-                                <div v-for="section in column" :key="section.name">
-                                  <p :id="`${category.id}-${section.id}-heading`" class="font-medium text-gray-900">{{ section.name }}</p>
-                                  <ul role="list" :aria-labelledby="`${category.id}-${section.id}-heading`" class="mt-4 space-y-4">
-                                    <li v-for="item in section.items" :key="item.name" class="flex">
-                                      <a :href="item.href" class="hover:text-gray-800">{{ item.name }}</a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </PopoverPanel>
-                  </transition>
-                </Popover>
-
-                <a v-for="page in navigation.pages" :key="page.name" :href="page.href" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{{ page.name }}</a>
-              </div>
-            </PopoverGroup>
-
-            <!-- Logo -->
-            <a href="#" class="flex">
-              <span class="sr-only">Your Company</span>
-              <img class="h-8 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-            </a>
-
-            <div class="flex flex-1 items-center justify-end">
-              <a href="#" class="hidden text-gray-700 hover:text-gray-800 lg:flex lg:items-center">
-                <img src="https://tailwindui.starxg.com/plus/img/flags/flag-canada.svg" alt="" class="block h-auto w-5 shrink-0" />
-                <span class="ml-3 block text-sm font-medium">CAD</span>
-                <span class="sr-only">, change currency</span>
-              </a>
-
-              <!-- Search -->
-              <a href="#" class="ml-6 hidden p-2 text-gray-400 hover:text-gray-500 lg:block">
-                <span class="sr-only">Search</span>
-                <MagnifyingGlassIcon class="size-6" aria-hidden="true" />
-              </a>
-
-              <!-- Account -->
-              <a href="#" class="p-2 text-gray-400 hover:text-gray-500 lg:ml-4">
-                <span class="sr-only">Account</span>
-                <UserIcon class="size-6" aria-hidden="true" />
-              </a>
-
-              <!-- Cart -->
-              <div class="ml-4 flow-root lg:ml-6">
-                <a href="#" class="group -m-2 flex items-center p-2">
-                  <ShoppingBagIcon class="size-6 shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                  <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                  <span class="sr-only">items in cart, view bag</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
 
     <main class="mx-auto mt-8 max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">
       <div class="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
         <div class="lg:col-span-5 lg:col-start-8">
           <div class="flex justify-between">
             <h1 class="text-xl font-medium text-gray-900">{{ product.name }}</h1>
-            <p class="text-xl font-medium text-gray-900">{{ product.price }}</p>
+            <p class="text-xl font-medium text-gray-900">{{ "￥" + product.price }}</p>
           </div>
           <!-- Reviews -->
           <div class="mt-4">
-            <h2 class="sr-only">Reviews</h2>
+            <h2 class="sr-only">评分</h2>
             <div class="flex items-center">
               <p class="text-sm text-gray-700">
                 {{ reviews.average }}
-                <span class="sr-only"> out of 5 stars</span>
+                <span class="sr-only"> 5</span>
               </p>
               <div class="ml-1 flex items-center">
                 <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[reviews.average > rating ? 'text-yellow-400' : 'text-gray-200', 'size-5 shrink-0']" aria-hidden="true" />
               </div>
               <div aria-hidden="true" class="ml-4 text-sm text-gray-300">·</div>
-              <div class="ml-4 flex">
-                <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">See all {{ reviews.totalCount }} reviews</a>
-              </div>
+
             </div>
           </div>
         </div>
@@ -216,8 +29,8 @@
         <div class="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
           <h2 class="sr-only">Images</h2>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
-            <img v-for="image in product.images" :key="image.id" :src="image.imageSrc" :alt="image.imageAlt" :class="[image.primary ? 'lg:col-span-2 lg:row-span-2' : 'hidden lg:block', 'rounded-lg']" />
+          <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-1 lg:gap-8">
+            <img v-for="image in product.images" :key="image.id" :src="image.imageSrc" :alt="image.imageAlt" :class="['hidden lg:block', 'rounded-lg']" />
           </div>
         </div>
 
@@ -225,51 +38,19 @@
 
 
           <div>
-
-            <!-- Color picker
-            <div>
-              <h2 class="text-sm font-medium text-gray-900">Color</h2>
-
-              <fieldset aria-label="Choose a color" class="mt-2">
-                <RadioGroup v-model="selectedColor" class="flex items-center space-x-3">
-                  <RadioGroupOption as="template" v-for="color in product.colors" :key="color.name" :value="color" :aria-label="color.name" v-slot="{ active, checked }">
-                    <div :class="[color.selectedColor, active && checked ? 'ring ring-offset-1' : '', !active && checked ? 'ring-2' : '', 'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none']">
-                      <span aria-hidden="true" :class="[color.bgColor, 'size-8 rounded-full border border-black/10']" />
-                    </div>
-                  </RadioGroupOption>
-                </RadioGroup>
-              </fieldset>
-            </div>
-            -->
-            <!-- Size picker
-            <div class="mt-8">
-              <div class="flex items-center justify-between">
-                <h2 class="text-sm font-medium text-gray-900">Size</h2>
-                <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">See sizing chart</a>
-              </div>
-
-              <fieldset aria-label="Choose a size" class="mt-2">
-                <RadioGroup v-model="selectedSize" class="grid grid-cols-3 gap-3 sm:grid-cols-6">
-                  <RadioGroupOption as="template" v-for="size in product.sizes" :key="size.name" :value="size" :disabled="!size.inStock" v-slot="{ active, checked }">
-                    <div :class="[size.inStock ? 'cursor-pointer focus:outline-none' : 'cursor-not-allowed opacity-25', active ? 'ring-2 ring-indigo-500 ring-offset-2' : '', checked ? 'border-transparent bg-indigo-600 text-white hover:bg-indigo-700' : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50', 'flex items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase sm:flex-1']">{{ size.name }}</div>
-                  </RadioGroupOption>
-                </RadioGroup>
-              </fieldset>
-            </div>
-            -->
-            <button @click="existInCart?delCartItem(product.id):addCartItem(product.id);existInCart = !existInCart" :class="['mt-8 flex w-full items-center justify-center rounded-md border border-transparent  px-8 py-3 text-base font-medium focus:outline-none focus:ring-0 focus:ring-offset-2 duration-150', existInCart?'bg-white border-red-600 text-red-600  hover:bg-red-50':'bg-green-600 hover:bg-green-700 text-white ']">
+            <button @click="existInCart?delCartItem(product.id):addCartItem(product.id);existInCart?counter.set(counter.count -1):counter.set(counter.count + 1);existInCart = !existInCart;" :class="['mt-8 flex w-full items-center justify-center rounded-md border border-transparent  px-8 py-3 text-base font-medium focus:outline-none focus:ring-0 focus:ring-offset-2 duration-150', existInCart?'bg-white border-red-600 text-red-600  hover:bg-red-50':'bg-green-600 hover:bg-green-700 text-white ']">
               {{existInCart? '从购物车移除':'加入购物车'}}</button>
           </div>
 
           <!-- Product details -->
           <div class="mt-10">
-            <h2 class="text-sm font-medium text-gray-900">Description</h2>
+            <h2 class="text-sm font-medium text-gray-900">描述</h2>
 
-            <div class="mt-4 space-y-4 text-sm/6 text-gray-500" v-html="product.description" />
+            <div class="mt-4 space-y-4 text-sm/6 text-gray-500" v-html="product.desc" />
           </div>
 
           <div class="mt-8 border-t border-gray-200 pt-8">
-            <h2 class="text-sm font-medium text-gray-900">Fabric &amp; Care</h2>
+            <h2 class="text-sm font-medium text-gray-900">商品条款</h2>
 
             <div class="mt-4">
               <ul role="list" class="list-disc space-y-1 pl-5 text-sm/6 text-gray-500 marker:text-gray-300">
@@ -278,26 +59,11 @@
             </div>
           </div>
 
-          <!-- Policies -->
-          <section aria-labelledby="policies-heading" class="mt-10">
-            <h2 id="policies-heading" class="sr-only">Our Policies</h2>
-
-            <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              <div v-for="policy in policies" :key="policy.name" class="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center">
-                <dt>
-                  <component :is="policy.icon" class="mx-auto size-6 shrink-0 text-gray-400" aria-hidden="true" />
-                  <span class="mt-4 text-sm font-medium text-gray-900">{{ policy.name }}</span>
-                </dt>
-                <dd class="mt-1 text-sm text-gray-500">{{ policy.desc }}</dd>
-              </div>
-            </dl>
-          </section>
         </div>
       </div>
 
       <!-- Reviews -->
-      <section aria-labelledby="reviews-heading" class="mt-16 sm:mt-24">
-        <h2 id="reviews-heading" class="text-lg font-medium text-gray-900">Recent reviews</h2>
+      <section aria-labelledby="reviews-heading" class="mt-5">
 
         <div class="mt-6 space-y-10 divide-y divide-gray-200 border-b border-t border-gray-200 pb-10">
           <div v-for="review in reviews.featured" :key="review.id" class="pt-10 lg:grid lg:grid-cols-12 lg:gap-x-8">
@@ -326,7 +92,7 @@
 
       <!-- Related products -->
       <section aria-labelledby="related-heading" class="mt-16 sm:mt-24">
-        <h2 id="related-heading" class="text-lg font-medium text-gray-900">Customers also purchased</h2>
+        <h2 id="related-heading" class="text-lg font-medium text-gray-900">对此商品感兴趣的人们还购买了</h2>
 
         <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           <div v-for="relatedProduct in relatedProducts" :key="relatedProduct.id" class="group relative">
@@ -348,227 +114,23 @@
       </section>
     </main>
 
-    <Footer></Footer>
   </div>
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from 'vue'
+import {onMounted, ref} from 'vue'
+
 import {
-  Dialog,
-  DialogPanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-  RadioGroup,
-  RadioGroupOption,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-import {
-  Bars3Icon,
+
   CurrencyDollarIcon,
   GlobeAmericasIcon,
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-  UserIcon,
-  XMarkIcon,
+
 } from '@heroicons/vue/24/outline'
 import { StarIcon } from '@heroicons/vue/20/solid'
-import Footer from "../../components/layout/Footer.vue";
 import {addCartItem, delCartItem, getProduct, listCartItems} from "@/api/auth.js";
 import {useRouter} from "vue-router";
-const navigation = {
-  categories: [
-    {
-      id: 'women',
-      name: 'Women',
-      featured: [
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/mega-menu-category-01.jpg',
-          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-        },
-        {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/mega-menu-category-02.jpg',
-          imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
-        },
-        {
-          name: 'Accessories',
-          href: '#',
-          imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/mega-menu-category-03.jpg',
-          imageAlt: 'Model wearing minimalist watch with black wristband and white watch face.',
-        },
-      ],
-      sections: [
-        [
-          {
-            id: 'shoes',
-            name: 'Shoes & Accessories',
-            items: [
-              { name: 'Sneakers', href: '#' },
-              { name: 'Boots', href: '#' },
-              { name: 'Flats', href: '#' },
-              { name: 'Sandals', href: '#' },
-              { name: 'Heels', href: '#' },
-              { name: 'Socks', href: '#' },
-            ],
-          },
-          {
-            id: 'collection',
-            name: 'Shop Collection',
-            items: [
-              { name: 'Everything', href: '#' },
-              { name: 'Core', href: '#' },
-              { name: 'New Arrivals', href: '#' },
-              { name: 'Sale', href: '#' },
-              { name: 'Accessories', href: '#' },
-            ],
-          },
-        ],
-        [
-          {
-            id: 'clothing',
-            name: 'All Clothing',
-            items: [
-              { name: 'Basic Tees', href: '#' },
-              { name: 'Artwork Tees', href: '#' },
-              { name: 'Tops', href: '#' },
-              { name: 'Bottoms', href: '#' },
-              { name: 'Swimwear', href: '#' },
-              { name: 'Underwear', href: '#' },
-            ],
-          },
-          {
-            id: 'accessories',
-            name: 'All Accessories',
-            items: [
-              { name: 'Watches', href: '#' },
-              { name: 'Wallets', href: '#' },
-              { name: 'Bags', href: '#' },
-              { name: 'Sunglasses', href: '#' },
-              { name: 'Hats', href: '#' },
-              { name: 'Belts', href: '#' },
-            ],
-          },
-        ],
-        [
-          {
-            id: 'brands',
-            name: 'Brands',
-            items: [
-              { name: 'Full Nelson', href: '#' },
-              { name: 'My Way', href: '#' },
-              { name: 'Re-Arranged', href: '#' },
-              { name: 'Counterfeit', href: '#' },
-              { name: 'Significant Other', href: '#' },
-            ],
-          },
-        ],
-      ],
-    },
-    {
-      id: 'men',
-      name: 'Men',
-      featured: [
-        {
-          name: 'Accessories',
-          href: '#',
-          imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/home-page-03-category-01.jpg',
-          imageAlt:
-              'Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters.',
-        },
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
-          imageAlt: 'Drawstring top with elastic loop closure and textured interior padding.',
-        },
-        {
-          name: 'Artwork Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/category-page-02-image-card-06.jpg',
-          imageAlt:
-              'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
-        },
-      ],
-      sections: [
-        [
-          {
-            id: 'shoes',
-            name: 'Shoes & Accessories',
-            items: [
-              { name: 'Sneakers', href: '#' },
-              { name: 'Boots', href: '#' },
-              { name: 'Sandals', href: '#' },
-              { name: 'Socks', href: '#' },
-            ],
-          },
-          {
-            id: 'collection',
-            name: 'Shop Collection',
-            items: [
-              { name: 'Everything', href: '#' },
-              { name: 'Core', href: '#' },
-              { name: 'New Arrivals', href: '#' },
-              { name: 'Sale', href: '#' },
-            ],
-          },
-        ],
-        [
-          {
-            id: 'clothing',
-            name: 'All Clothing',
-            items: [
-              { name: 'Basic Tees', href: '#' },
-              { name: 'Artwork Tees', href: '#' },
-              { name: 'Pants', href: '#' },
-              { name: 'Hoodies', href: '#' },
-              { name: 'Swimsuits', href: '#' },
-            ],
-          },
-          {
-            id: 'accessories',
-            name: 'All Accessories',
-            items: [
-              { name: 'Watches', href: '#' },
-              { name: 'Wallets', href: '#' },
-              { name: 'Bags', href: '#' },
-              { name: 'Sunglasses', href: '#' },
-              { name: 'Hats', href: '#' },
-              { name: 'Belts', href: '#' },
-            ],
-          },
-        ],
-        [
-          {
-            id: 'brands',
-            name: 'Brands',
-            items: [
-              { name: 'Re-Arranged', href: '#' },
-              { name: 'Counterfeit', href: '#' },
-              { name: 'Full Nelson', href: '#' },
-              { name: 'My Way', href: '#' },
-            ],
-          },
-        ],
-      ],
-    },
-  ],
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
-  ],
-}
+import {useCounterStore} from "../../../store/cart.js";
+
 const product = ref({
   name: 'Basic Tee',
   price: '$35',
@@ -615,24 +177,20 @@ const product = ref({
     'Machine wash cold with similar colors',
   ],
 })
-const policies = [
-  { name: 'International delivery', icon: GlobeAmericasIcon, description: 'Get your order in 2 years' },
-  { name: 'Loyalty rewards', icon: CurrencyDollarIcon, description: "Don't look at other tees" },
-]
 const reviews = {
-  average: 3.9,
+  average: 5,
   totalCount: 512,
   featured: [
     {
       id: 1,
-      title: "Can't say enough good things",
+      title: "说不完的好话",
       rating: 5,
       content: `
-        <p>I was really pleased with the overall shopping experience. My order even included a little personal, handwritten note, which delighted me!</p>
-        <p>The product quality is amazing, it looks and feel even better than I had anticipated. Brilliant stuff! I would gladly recommend this store to my friends. And, now that I think of it... I actually have, many times!</p>
+        <p>我对整个购物体验感到非常满意。我的订单甚至包括一个小的个人，手写的说明，这使我高兴！</p>
+        <p>产品质量是惊人的，它的外观和感觉甚至比我预期的更好。太棒了！我很乐意向我的朋友们推荐这家商店。现在我想起来了，我真的做过很多次！</p>
       `,
-      author: 'Risako M',
-      date: 'May 16, 2021',
+      author: 'Risako',
+      date: '2021.5.15',
       datetime: '2021-01-06',
     },
     // More reviews...
@@ -641,18 +199,17 @@ const reviews = {
 const relatedProducts = [
   {
     id: 1,
-    name: 'Basic Tee',
+    name: 'T恤',
     href: '#',
     imageSrc: 'https://tailwindui.starxg.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg',
     imageAlt: "Front of men's Basic Tee in white.",
-    price: '$35',
-    color: 'Aspen White',
+    price: '￥35',
+    color: '米白色',
   },
   // More products...
 ]
 
-const open = ref(false)
-
+const counter = useCounterStore()
 const router = useRouter()
 
 const existInCart = ref(false)
@@ -662,7 +219,13 @@ onMounted(()=>{
   console.log(router.currentRoute.value)
   const id = router.currentRoute.value.query.id
   getProduct({id: id}).then(res => res.json().then(data=>{
-    product.value = data["data"]
+    data = data["data"]
+
+    data.images = [{primary: true,
+      imageSrc: data.imageSrc,
+      imageAlt:'1',
+    }]
+    product.value = data
     existInCart.value = listCartItems().indexOf(product.value.id) !== -1
     console.log(data)
   }))

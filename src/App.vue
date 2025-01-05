@@ -1,6 +1,7 @@
 <script setup>
 import CategoryPage from "@/views/Main/index.vue";
 import Header from "@/components/layout/Header.vue";
+import Footer from "@/components/layout/Footer.vue";
 </script>
 <template>
   <Header></Header>

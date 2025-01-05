@@ -1,3 +1,4 @@
+
 const API = "http://localhost:5002/api";
 
 // 用户登录
@@ -46,6 +47,7 @@ export function addCartItem(itemID){
     console.info(itemID + "添加成功购物车")
     cart.push(itemID)
     localStorage.setItem("cartItems", JSON.stringify(cart));
+
 }
 
 // 删除购物车物品
@@ -54,16 +56,18 @@ export function delCartItem(itemID){
     const cart = s? JSON.parse(s) : []
 
     localStorage.setItem("cartItems", JSON.stringify(cart.filter(item => item !== itemID)));
+
 }
 
 
 // 列出购物车
 export function listCartItems(){
     const s = localStorage.getItem("cartItems")
-    return s ? JSON.parse(s) : []
+    return s ? JSON.parse(s).filter(item => item !== null) : []
 }
 
 // 清空购物车
 export function cleanCartItems(){
     localStorage.setItem("cartItems", JSON.stringify([]));
+
 }

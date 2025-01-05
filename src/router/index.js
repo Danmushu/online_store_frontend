@@ -6,7 +6,10 @@ import Detail from "../views/Detail/index.vue"
 import Cart from "../views/Cart/index.vue"
 import Login from "../views/Login/index.vue"
 import Registration from "../views/Registration/index.vue"
-import test from "../views/test/index.vue"
+import OrderInfo from "@/views/OrderInfo/index.vue"
+import History from "../views/History/index.vue"
+import Dialogs from "../views/Dialogs/index.vue"
+
 const routes = [
     {
         path: '/',
@@ -15,7 +18,7 @@ const routes = [
     },
     {
         path: '/payment',
-        name: 'Payment',
+        name: 'payment',
         component: Payment,
     },
     {
@@ -29,7 +32,7 @@ const routes = [
         component: Main,
     },
     {
-        path: '/cart',
+        path: '/cart.js',
         name: 'Cart',
         component: Cart,
     },
@@ -44,9 +47,19 @@ const routes = [
         component: Registration,
     },
     {
-        path: '/test',
-        name: 'test',
-        component: test,
+        path: '/orders',
+        name: 'Orders',
+        component: OrderInfo,
+    },
+    {
+        path: '/history',
+        name: 'History',
+        component: History,
+    },
+    {
+        path: '/dialogs',
+        name: 'Dialogs',
+        component: Dialogs,
     }
 ]
 
